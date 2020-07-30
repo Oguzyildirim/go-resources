@@ -1,0 +1,375 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ToDo service",
+    "version": "1.0",
+    "contact": {
+      "name": "go-grpc-http-rest-microservice-tutorial project",
+      "url": "https://github.com/fengberlin/go-grpc-http-rest-microservice-tutorial",
+      "email": "fengberlin@qq.com"
+    }
+  },
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/todo": {
+      "post": {
+        "summary": "创建新的待办事项任务",
+        "operationId": "Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1CreateResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ToDoService"
+        ]
+      }
+    },
+    "/v1/todo/all": {
+      "get": {
+        "summary": "读取全部待办事项任务",
+        "operationId": "ReadAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReadAllResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "api",
+            "description": "API版本控制：这是明确指定版本的最佳实践.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ToDoService"
+        ]
+      }
+    },
+    "/v1/todo/{id}": {
+      "get": {
+        "summary": "读取待办事项任务",
+        "operationId": "Read",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ReadResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "待办事项任务的唯一整数标识符",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "api",
+            "description": "API版本控制：这是明确指定版本的最佳实践.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ToDoService"
+        ]
+      },
+      "delete": {
+        "summary": "删除待办事项任务",
+        "operationId": "Delete",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1DeleteResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "要删除的待办事项任务的唯一整数标识符",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "api",
+            "description": "API版本控制：这是明确指定版本的最佳实践.",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ToDoService"
+        ]
+      }
+    },
+    "/v1/todo/{toDo.id}": {
+      "put": {
+        "summary": "更新待办事项任务",
+        "operationId": "Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "toDo.id",
+            "description": "待办事项任务的唯一整数标识符",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ToDoService"
+        ]
+      },
+      "patch": {
+        "summary": "更新待办事项任务",
+        "operationId": "Update2",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UpdateResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "format": "string"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "toDo.id",
+            "description": "待办事项任务的唯一整数标识符",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ToDoService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "v1CreateRequest": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "string",
+          "title": "API版本控制：这是明确指定版本的最佳实践"
+        },
+        "toDo": {
+          "$ref": "#/definitions/v1ToDo",
+          "title": "要添加的任务实体"
+        }
+      },
+      "title": "请求数据以创建新的待办事项任务"
+    },
+    "v1CreateResponse": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "string",
+          "title": "API版本控制：这是明确指定版本的最佳实践"
+        },
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "已创建任务的ID"
+        }
+      },
+      "title": "包含创建的待办事项任务的数据"
+    },
+    "v1DeleteResponse": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "string",
+          "title": "API版本控制：这是明确指定版本的最佳实践"
+        },
+        "deleted": {
+          "type": "string",
+          "format": "int64",
+          "title": "包含已删除的实体数量\n成功删除时等于1"
+        }
+      },
+      "title": "包含删除操作的状态"
+    },
+    "v1ReadAllResponse": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "string",
+          "title": "API版本控制：这是明确指定版本的最佳实践"
+        },
+        "toDos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ToDo"
+          }
+        }
+      },
+      "title": "包含所有待办事项任务的列表"
+    },
+    "v1ReadResponse": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "string",
+          "title": "API版本控制：这是明确指定版本的最佳实践"
+        },
+        "toDo": {
+          "$ref": "#/definitions/v1ToDo",
+          "title": "按ID读取的任务实体"
+        }
+      },
+      "title": "包含ID请求中指定的待办事项任务数据"
+    },
+    "v1ToDo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "待办事项任务的唯一整数标识符"
+        },
+        "title": {
+          "type": "string",
+          "title": "任务的标题"
+        },
+        "description": {
+          "type": "string",
+          "title": "待办事项任务的详细说明"
+        },
+        "reminder": {
+          "type": "string",
+          "format": "date-time",
+          "title": "提醒待办任务的日期和时间"
+        }
+      },
+      "title": "我们要做的是Task"
+    },
+    "v1UpdateRequest": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "string",
+          "title": "API版本控制：这是明确指定版本的最佳实践"
+        },
+        "toDo": {
+          "$ref": "#/definitions/v1ToDo",
+          "title": "要更新的任务实体"
+        }
+      },
+      "title": "请求数据以更新待办事项任务"
+    },
+    "v1UpdateResponse": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "string",
+          "title": "API版本控制：这是明确指定版本的最佳实践"
+        },
+        "updated": {
+          "type": "string",
+          "format": "int64",
+          "title": "包含已更新的实体数量\n在成功更新的情况下等于1"
+        }
+      },
+      "title": "包含更新操作的状态"
+    }
+  }
+}

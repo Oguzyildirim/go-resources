@@ -1,0 +1,26 @@
+/**
+ * :=  created by:  Shuza
+ * :=  create date:  29-Jan-2019
+ * :=  (C) CopyRight Shuza
+ * :=  www.shuza.ninja
+ * :=  shuza.sa@gmail.com
+ * :=  Fun  :  Coffee  :  Code
+ **/
+
+syntax = "proto3";
+
+package pb;
+
+message AddRequest {
+    uint64 a = 1;
+    uint64 b = 2;
+}
+
+message AddResponse {
+    uint64 result = 1;
+}
+
+service AddService {
+    rpc Compute (AddRequest) returns (AddResponse) {
+    }
+}

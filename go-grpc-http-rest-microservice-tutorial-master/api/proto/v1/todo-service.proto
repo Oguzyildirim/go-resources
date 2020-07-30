@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+	info: {
+		title: "ToDo service";
+		version: "1.0";
+		contact: {
+			name: "go-grpc-http-rest-microservice-tutorial project";
+			url: "https://github.com/fengberlin/go-grpc-http-rest-microservice-tutorial";
+			email: "fengberlin@qq.com";
+        };
+    };
+    schemes: HTTP;
+    consumes: "application/json";
+    produces: "application/json";
+    responses: {
+		key: "404";
+		value: {
+			description: "Returned when the resource does not exist.";
+			schema: {
+				json_schema: {
+					type: STRING;
+				}
+			}
+		}
+	}
+};
+
+// 用于管理待办事项列表的服务
+service ToDoService {
+    // 创建新的待办事项任务
+    rpc Create (CreateRequest) returns (CreateResponse) {
+        option (google.api.http) = {
+            post: "/v1/todo"
+            body: "*"
+        };
+    }
+
+    // 读取待办事项任务
+    rpc Read(ReadRequest) returns (ReadResponse) {
+        option (google.api.http) = {
+            get: "/v1/todo/{id}"
+        };
+    }
+
+    // 更新待办事项任务
+    rpc Update(UpdateRequest) returns (UpdateResponse) {
+        option (google.api.http) = {
+            put: "/v1/todo/{toDo.id}"
+            body: "*"
+
+            additional_bindings {
+                patch: "/v1/todo/{toDo.id}"
+                body: "*"
+            }
+        };
+    }
+
+    // 删除待办事项任务
+    rpc Delete(DeleteRequest) returns (DeleteResponse) {
+        option (google.api.http) = {
+            delete: "/v1/todo/{id}"
+        };
+    }
+
+    // 读取全部待办事项任务
+    rpc ReadAll(ReadAllRequest) returns (ReadAllResponse) {
+        option (google.api.http) = {
+            get: "/v1/todo/all"
+        };
+    }
+}
+
+// 请求数据以创建新的待办事项任务
+message CreateRequest {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+    // 要添加的任务实体
+    ToDo toDo = 2;
+}
+
+// 我们要做的是Task
+message ToDo {
+    // 待办事项任务的唯一整数标识符
+    int64 id = 1;
+    // 任务的标题
+    string title = 2;
+    // 待办事项任务的详细说明
+    string description = 3;
+    // 提醒待办任务的日期和时间
+    google.protobuf.Timestamp reminder = 4;
+}
+
+// 包含创建的待办事项任务的数据
+message CreateResponse {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+    // 已创建任务的ID
+    int64 id = 2;
+}
+
+// 求数据读取待办事项任务
+message ReadRequest {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+
+    // 待办事项任务的唯一整数标识符
+    int64 id = 2;
+}
+
+// 包含ID请求中指定的待办事项任务数据
+message ReadResponse {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+
+    // 按ID读取的任务实体
+    ToDo toDo = 2;
+}
+
+// 请求数据以更新待办事项任务
+message UpdateRequest {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+
+    // 要更新的任务实体
+    ToDo toDo = 2;
+}
+
+// 包含更新操作的状态
+message UpdateResponse {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+
+    // 包含已更新的实体数量
+    // 在成功更新的情况下等于1
+    int64 updated = 2;
+}
+
+// 请求数据删除待办事项任务
+message DeleteRequest {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+
+    // 要删除的待办事项任务的唯一整数标识符
+    int64 id = 2;
+}
+
+// 包含删除操作的状态
+message DeleteResponse {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+
+    // 包含已删除的实体数量
+    // 成功删除时等于1
+    int64 deleted = 2;
+}
+
+// 请求数据以读取所有待办事项任务
+message ReadAllRequest {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+}
+
+// 包含所有待办事项任务的列表
+message ReadAllResponse {
+    // API版本控制：这是明确指定版本的最佳实践
+    string api = 1;
+
+    repeated ToDo toDos = 2;
+}
